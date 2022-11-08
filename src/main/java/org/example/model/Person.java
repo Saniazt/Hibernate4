@@ -1,13 +1,12 @@
 package org.example.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import javax.persistence.*;
+
 
 @Entity
-@Table(name = "Person")
+@Table(name = "person")
 public class Person {
 
     @Id
@@ -49,4 +48,5 @@ public class Person {
     public void setAge(int age) {
         this.age = age;
     }
+
 }
