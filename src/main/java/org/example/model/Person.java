@@ -11,6 +11,7 @@ public class Person {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
     private String name;
@@ -19,7 +20,7 @@ public class Person {
 
     public Person(){}
 
-    public Person(int id, String name, int age) {
+    public Person( String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -49,4 +50,8 @@ public class Person {
         this.age = age;
     }
 
+    @Override
+    public String toString() {
+        return this.name+", "+this.age;
+    }
 }
