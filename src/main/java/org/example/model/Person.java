@@ -1,27 +1,29 @@
 package org.example.model;
 
 
-
 import javax.persistence.*;
-
+import java.util.List;
 
 @Entity
 @Table(name = "person")
 public class Person {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "age")
     private int age;
 
+    @OneToMany(mappedBy = "owner")
+    private List <Item> items;
+
     public Person(){}
 
-    public Person( String name, int age) {
-        this.id = id;
+    public Person(String name, int age){
         this.name = name;
         this.age = age;
     }
@@ -50,8 +52,20 @@ public class Person {
         this.age = age;
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
     @Override
     public String toString() {
-        return this.name+", "+this.age;
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 }
