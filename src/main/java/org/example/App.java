@@ -8,6 +8,7 @@ import org.hibernate.cfg.*;
 
 
 
+
 public class App {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class)
@@ -19,14 +20,15 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class,4);
-            Item item = session.get(Item.class,1);
+            Person person = new Person("Test cascading",35);
+            person.addItem(new Item("item1"));
+            person.addItem(new Item("item2"));
+            person.addItem(new Item("item3"));
 
-            item.setOwner(person);
-            person.getItems().add(item);
-
+            session.save(person);
 
             session.getTransaction().commit();
+
         } finally {
             sessionFactory.close();
         }
