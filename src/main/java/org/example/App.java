@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.model.Item;
+import org.example.model.Passport;
 import org.example.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,7 +12,7 @@ import org.hibernate.cfg.*;
 public class App {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class)
-                .addAnnotatedClass(Item.class);
+                .addAnnotatedClass(Passport.class);
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
@@ -20,10 +20,10 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = new Person("Test cascading",35);
-            person.addItem(new Item("item1"));
-            person.addItem(new Item("item2"));
-            person.addItem(new Item("item3"));
+            Person person = new Person("Test1",24);
+            Passport passport = new Passport(12414);
+
+            person.setPassport(passport);
 
             session.save(person);
 
