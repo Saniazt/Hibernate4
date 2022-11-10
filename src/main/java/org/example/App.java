@@ -1,36 +1,36 @@
 package org.example;
 
-import org.example.model.Passport;
-import org.example.model.Person;
+import org.example.model.Actor;
+import org.example.model.Movie;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.*;
 
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class App {
     public static void main(String[] args) {
-        Configuration configuration = new Configuration().addAnnotatedClass(Person.class)
-                .addAnnotatedClass(Passport.class);
+        Configuration configuration = new Configuration().addAnnotatedClass(Actor.class)
+                .addAnnotatedClass(Movie.class);
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
 
-        try {
+        try (sessionFactory) { //автоматически закроет когда мы закончим работу
+            Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
-            Person person = new Person("Test1",24);
-            Passport passport = new Passport(12414);
+            Actor actor = session.get(Actor.class,2);
+            System.out.println(actor.getMovies());
+            Movie movieToRemove = actor.getMovies().get(0);
 
-            person.setPassport(passport);
-
-            session.save(person);
+            actor.getMovies().remove(0); // для remove реализовали hashcode and equals во всех двух классах
+            movieToRemove.getActors().remove(actor); // для remove реализовали hashcode and equals во всех двух классах
 
             session.getTransaction().commit();
 
-        } finally {
-            sessionFactory.close();
         }
     }
 }
